@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class InfrastructureConfig {
 
-    @Bean
-    public TaskRepository taskRepository(TaskJpaDao taskJpaDao, TaskPersistenceMapper mapper) {
-        return new TaskRepository(taskJpaDao, mapper);
-    }
+  @Bean
+  public TaskRepository taskRepository(TaskJpaDao taskJpaDao, TaskPersistenceMapper mapper) {
+    return new TaskRepository(taskJpaDao, mapper);
+  }
 }

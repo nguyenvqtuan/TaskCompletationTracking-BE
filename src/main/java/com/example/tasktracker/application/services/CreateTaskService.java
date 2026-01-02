@@ -10,12 +10,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CreateTaskService {
 
-    private final TaskRepository taskRepository;
-    private final TaskMapper taskMapper;
+  private final TaskRepository taskRepository;
+  private final TaskMapper taskMapper;
 
-    public Task execute(CreateTaskCommand command) {
-        Task task = taskMapper.toDomain(command);
-        // Validation could go here if not in Entity
-        return taskRepository.save(task);
-    }
+  public Task execute(CreateTaskCommand command) {
+    Task task = taskMapper.toDomain(command);
+    // Validation could go here if not in Entity
+    return taskRepository.save(task);
+  }
 }

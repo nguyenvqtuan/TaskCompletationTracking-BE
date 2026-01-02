@@ -3,7 +3,7 @@ package com.example.tasktracker.application.exception;
 import java.util.UUID;
 
 public class TaskNotFoundException extends RuntimeException {
-    public TaskNotFoundException(UUID id) {
-        super("Task not found with id: " + id);
-    }
+  public TaskNotFoundException(UUID id) {
+    super("Task not found with id: " + id);
+  }
 }
