@@ -11,10 +11,12 @@ public class Task {
 
   private final UUID id;
   private UUID userId; // Ownership
+  private UUID sprintId; // Sprint association
   private String title;
   private String description;
   private TaskStatus status;
   private TaskPriority priority;
+  private Double progress;
   private Instant dueDate;
   private final Instant createdAt;
 
@@ -22,18 +24,22 @@ public class Task {
   private Task(
       UUID id,
       UUID userId,
+      UUID sprintId,
       String title,
       String description,
       TaskStatus status,
       TaskPriority priority,
+      Double progress,
       Instant dueDate,
       Instant createdAt) {
     this.id = id;
     this.userId = userId;
+    this.sprintId = sprintId;
     this.title = title;
     this.description = description;
     this.status = status;
     this.priority = priority;
+    this.progress = progress;
     this.dueDate = dueDate;
     this.createdAt = createdAt;
     validate();
@@ -47,6 +53,9 @@ public class Task {
     Objects.requireNonNull(status, "Status cannot be null");
     Objects.requireNonNull(priority, "Priority cannot be null");
     Objects.requireNonNull(createdAt, "CreatedAt cannot be null");
+    if (progress != null && (progress < 0 || progress > 100)) {
+      throw new TaskValidationException("Progress must be between 0 and 100");
+    }
   }
 
   // Business Methods to mutate state
@@ -72,18 +81,31 @@ public class Task {
     this.priority = priority;
   }
 
+  public void updateProgress(Double progress) {
+    if (progress != null && (progress < 0 || progress > 100)) {
+      throw new TaskValidationException("Progress must be between 0 and 100");
+    }
+    this.progress = progress;
+  }
+
   public void updateDueDate(Instant dueDate) {
     this.dueDate = dueDate;
+  }
+
+  public void assignToSprint(UUID sprintId) {
+    this.sprintId = sprintId;
   }
 
   // Custom Builder to handle defaults and final fields
   public static class Builder {
     private UUID id;
     private UUID userId;
+    private UUID sprintId;
     private String title;
     private String description;
     private TaskStatus status;
     private TaskPriority priority;
+    private Double progress;
     private Instant dueDate;
     private Instant createdAt;
 
@@ -94,6 +116,11 @@ public class Task {
 
     public Builder userId(UUID userId) {
       this.userId = userId;
+      return this;
+    }
+
+    public Builder sprintId(UUID sprintId) {
+      this.sprintId = sprintId;
       return this;
     }
 
@@ -117,6 +144,11 @@ public class Task {
       return this;
     }
 
+    public Builder progress(Double progress) {
+      this.progress = progress;
+      return this;
+    }
+
     public Builder dueDate(Instant dueDate) {
       this.dueDate = dueDate;
       return this;
@@ -131,9 +163,11 @@ public class Task {
       // Set defaults
       if (this.status == null) this.status = TaskStatus.TODO;
       if (this.priority == null) this.priority = TaskPriority.MEDIUM;
+      if (this.progress == null) this.progress = 0.0;
       if (this.createdAt == null) this.createdAt = Instant.now();
 
-      return new Task(id, userId, title, description, status, priority, dueDate, createdAt);
+      return new Task(
+          id, userId, sprintId, title, description, status, priority, progress, dueDate, createdAt);
     }
   }
 

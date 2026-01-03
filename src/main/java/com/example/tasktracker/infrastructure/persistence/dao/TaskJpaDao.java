@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TaskJpaDao extends JpaRepository<TaskJpaEntity, UUID> {
   List<TaskJpaEntity> findByStatus(TaskStatus status);
+
+  List<TaskJpaEntity> findBySprintId(UUID sprintId);
 }

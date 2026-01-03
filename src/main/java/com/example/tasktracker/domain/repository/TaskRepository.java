@@ -13,6 +13,8 @@ public interface TaskRepository {
 
   List<Task> findAll();
 
+  List<Task> findBySprintId(UUID sprintId);
+
   List<Task> findByStatus(TaskStatus status);
 
   void deleteById(UUID id);

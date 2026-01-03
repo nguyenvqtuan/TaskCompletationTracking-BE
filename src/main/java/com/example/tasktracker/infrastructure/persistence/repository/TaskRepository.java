@@ -41,6 +41,13 @@ public class TaskRepository implements com.example.tasktracker.domain.repository
   }
 
   @Override
+  public List<Task> findBySprintId(UUID sprintId) {
+    return taskJpaDao.findBySprintId(sprintId).stream()
+        .map(mapper::toDomain)
+        .collect(Collectors.toList());
+  }
+
+  @Override
   public void deleteById(UUID id) {
     taskJpaDao.deleteById(id);
   }

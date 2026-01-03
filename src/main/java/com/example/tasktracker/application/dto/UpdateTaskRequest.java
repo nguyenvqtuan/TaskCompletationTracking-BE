@@ -4,6 +4,7 @@ import com.example.tasktracker.domain.model.TaskPriority;
 import com.example.tasktracker.domain.model.TaskStatus;
 import jakarta.validation.constraints.Size;
 import java.time.Instant;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,8 @@ public class UpdateTaskRequest {
   private String description;
   private TaskStatus status;
   private TaskPriority priority;
+  private Double progress;
   private Instant dueDate;
+  private UUID sprintId;
+  private Boolean removeSprint;
 }

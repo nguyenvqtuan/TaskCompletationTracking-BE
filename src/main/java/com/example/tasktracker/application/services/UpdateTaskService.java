@@ -27,7 +27,13 @@ public class UpdateTaskService {
     if (request.getDescription() != null) task.updateDescription(request.getDescription());
     if (request.getStatus() != null) task.changeStatus(request.getStatus());
     if (request.getPriority() != null) task.changePriority(request.getPriority());
+    if (request.getProgress() != null) task.updateProgress(request.getProgress());
     if (request.getDueDate() != null) task.updateDueDate(request.getDueDate());
+    if (Boolean.TRUE.equals(request.getRemoveSprint())) {
+      task.assignToSprint(null);
+    } else if (request.getSprintId() != null) {
+      task.assignToSprint(request.getSprintId());
+    }
 
     return taskRepository.save(task);
   }

@@ -17,6 +17,13 @@ public class GetTasksService {
     return taskRepository.findAll();
   }
 
+  public List<Task> getAll(UUID sprintId) {
+    if (sprintId == null) {
+      return taskRepository.findAll();
+    }
+    return taskRepository.findBySprintId(sprintId);
+  }
+
   public Optional<Task> getById(UUID id) {
     return taskRepository.findById(id);
   }

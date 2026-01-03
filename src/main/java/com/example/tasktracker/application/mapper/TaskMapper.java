@@ -15,6 +15,7 @@ public class TaskMapper {
         .title(command.getTitle())
         .description(command.getDescription())
         .priority(command.getPriority())
+        .progress(command.getProgress())
         .dueDate(command.getDueDate())
         .build();
   }

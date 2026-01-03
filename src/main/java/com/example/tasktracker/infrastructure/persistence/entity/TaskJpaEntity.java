@@ -21,6 +21,7 @@ public class TaskJpaEntity {
   @Id @UuidGenerator private UUID id;
 
   private UUID userId; // Storing as simple UUID to decouple for now
+  private UUID sprintId;
 
   @NotBlank(message = "Title cannot be empty")
   @Column(nullable = false)
@@ -36,6 +37,9 @@ public class TaskJpaEntity {
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
   private TaskPriority priority;
+
+  @Column(name = "progress")
+  private Double progress;
 
   @Column(name = "due_date")
   private Instant dueDate;
@@ -53,6 +57,9 @@ public class TaskJpaEntity {
     }
     if (this.priority == null) {
       this.priority = TaskPriority.MEDIUM;
+    }
+    if (this.progress == null) {
+      this.progress = 0.0;
     }
   }
 }

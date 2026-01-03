@@ -5,13 +5,14 @@ import com.example.tasktracker.application.services.*;
 import com.example.tasktracker.domain.model.Task;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/tasks")
+@RequestMapping("/api/task")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:5173")
 public class TaskController {
@@ -23,6 +24,19 @@ public class TaskController {
 
   // CalculateProgressService can be exposed via a new endpoint if needed
 
+  @GetMapping
+  public ResponseEntity<List<Task>> getAllTasks(@RequestParam(required = false) UUID sprintId) {
+    return ResponseEntity.ok(getTasksService.getAll(sprintId));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<Task> getTaskById(@PathVariable UUID id) {
+    return getTasksService
+        .getById(id)
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
+  }
+
   @PostMapping
   public ResponseEntity<Task> createTask(@RequestBody @Valid CreateTaskCommand command) {
     Task createdTask = createTaskService.execute(command);
@@ -30,7 +44,6 @@ public class TaskController {
         .body(createdTask);
   }
 
-  // ...
   @PutMapping("/{id}")
   public ResponseEntity<Task> updateTask(
       @PathVariable UUID id,
