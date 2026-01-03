@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: TaskCompletionTracking-be
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev} # Default to dev profile
+
+---
+
+# Development Profile (H2)
+spring:
+  config:
+    activate:
+      on-profile: dev
+  
+  datasource:
+    url: jdbc:h2:mem:taskdb
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  
+  h2:
+    console:
+      enabled: true
+
+---
+
+# Production Profile (Supabase / Postgres)
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    # Read from Environment Variables
+    url: ${SPRING_DATASOURCE_URL} 
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
